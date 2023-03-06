@@ -1,14 +1,38 @@
+import { useReducer } from "react";
 import "./styles.css";
 
+const ACTIONS = {
+  ADD_DIGIT: 'add-digit',
+  CHOOSE_OPERATION: 'choose-operation',
+  CLEAR: 'clear',
+  DELETE_DIGIT: 'delete-digit',
+  EVALUATE: 'evaluate'
+}
+
+function reducer(state, { type, payload }) {
+  switch(type) {
+    case ACTIONS.ADD_DIGIT:
+      return {
+        ...state,
+        currentOperand: `${state.currentOperand || ""}${payload.digit}`
+      }
+  }
+
+}
+
 function App() {
+  const [{currentOperand, previousOperand, operation}, dispatch] = useReducer(reducer, {});
+  
+  dispatch({ type: ACTIONS.ADD_DIGIT, payload: { digit: 1 }});
+
   return (
     <div className="calculator-grid">
       <div className="output">
         <div className="previous-operand">
-          35 *
+          {previousOperand} {operation}
         </div>
         <div className="current-operand">
-          2
+          {currentOperand}
         </div>
       </div>
 
